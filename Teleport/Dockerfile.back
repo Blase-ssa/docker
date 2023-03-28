@@ -1,0 +1,37 @@
+# Teleport version ( Get the latest release tags listed at https://goteleport.com/download/ )
+ARG TELEPORT_VERSION="12.1.1"
+ARG TELEPORT_SRC_DIR="/opt/src/teleport"
+ARG TELEPORT_URL="https://github.com/gravitational/teleport.git"
+
+# First, create a container to build Teleport from source.
+FROM golang:latest AS builder
+
+# Install required dependencies
+RUN apt-get update && apt-get install -y git yarn
+
+# Copy the Teleport source code
+RUN mkdir -p ${TELEPORT_SRC_DIR} \
+    git clone ${TELEPORT_URL} -b v${TELEPORT_VERSION} ${TELEPORT_SRC_DIR}
+#    git clone https://github.com/gravitational/teleport.git -b v12.1.1 /opt/src/teleport
+
+# build Teleport
+RUN cd ${TELEPORT_SRC_DIR} \
+    && make full
+
+# make the container for Teleport
+FROM alpine:latest
+
+# Install required dependencies
+RUN apk --no-cache add ca-certificates
+
+# copy binaries from "builder"
+COPY --from=builder ${TELEPORT_SRC_DIR}/build/teleport /usr/local/bin/teleport
+
+# expose ports
+EXPOSE 3023/tcp
+EXPOSE 3024/tcp
+EXPOSE 3025/tcp
+EXPOSE 3080/tcp
+
+# run Teleport
+CMD ["teleport", "start"]
