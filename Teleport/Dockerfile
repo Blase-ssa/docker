@@ -9,17 +9,14 @@ FROM arm64v8/ubuntu:latest
 # RUN apt-get update && apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
 RUN apt-get update && apt-get install -y curl
 
-# download and install teleport
-RUN mkdir -p ${TMP_DIR} && cd ${TMP_DIR} \
-    && curl -O https://cdn.teleport.dev/teleport-v${TELEPORT_VERSION}-linux-${SYSTEM_ARCH}-bin.tar.gz \
-    && tar -xvf teleport-v${TELEPORT_VERSION}-linux-${SYSTEM_ARCH}-bin.tar.gz \
-    && cd teleport \
-    && ./install
-
 # clean image
 RUN apt-get clean \
     rm -rf /var/lib/apt/lists/* \
     rm -rf ${TMP_DIR}
+
+# create a default configuratins files for teleport if they not exists
+RUN [ ! -d /etc/teleport ] && mkdir -p '/etc/teleport';\
+    [ ! -f /etc/teleport/teleport.yaml ] && teleport configure -o /etc/teleport/teleport.yaml
 
 # expose ports
 # Service proxy:ssh
@@ -32,4 +29,4 @@ EXPOSE 3025/tcp
 EXPOSE 3080/tcp
 
 # run Teleport
-CMD ["teleport", "start"]
+CMD ["teleport", "start", "-c", "/etc/teleport/teleport.yaml"]
