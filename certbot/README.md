@@ -10,12 +10,12 @@ docker build -t certbot ./
 
 ## 2. Run container and mount directory
 ```sh
-docker run -ti -p 80:80 -p 443:443 --mount=type=bind,source=/opt/configs/certs,target=/etc/letsencrypt/ --rm certbot
+docker run -ti -p 80:80 -p 443:443 --mount=type=bind,source=/opt/configs/letsencrypt,target=/etc/letsencrypt/ --rm certbot
 ```
 
 ## 3. Run command to generate certificate (check commandline on certbot website)
 ```sh
-sudo certbot certonly --standalone
+certbot certonly --standalone
 ```
 
 # Links:
