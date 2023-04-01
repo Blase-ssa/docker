@@ -7,9 +7,6 @@ RUN apt update
 # install certbot
 RUN DEBIAN_FRONTEND=noninteractive apt install -y certbot
 
-# Prepare the Certbot command 
-RUN ln -s /snap/bin/certbot /usr/bin/certbot
-
 # clean image
 RUN apt-get clean; \
     rm -rf /var/lib/apt/lists/* 
