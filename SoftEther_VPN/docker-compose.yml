@@ -1,0 +1,25 @@
+version: "1.0"
+services:
+  soft-vpn:
+    image: softether-vpnserver
+    container_name: softether-vpn_srv
+    build:
+      context: .
+      dockerfile: VPN_Server.Dockerfile
+    ports:
+      - "443:443/tcp"
+    volumes:
+      - /opt/configs/SoftEther/server/config:/var/lib/seftether/
+    restart: unless-stopped
+
+  soft-vpn-wui:
+    image: softether-admin
+    container_name: softether-vpn_wui
+    build:
+      context: .
+      dockerfile: SoftEtherAdmin.Dockerfile
+    ports:
+      - "8000:8000/tcp"
+    volumes:
+      - /opt/configs/SoftEther/admin/config:/srv/SoftEtherAdmin/config
+    restart: unless-stopped
