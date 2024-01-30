@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  noip:
+    build:
+      dockerfile: Dockerfile
+    container_name: noip_client
+    volumes:
+      - ./conf/no-ip2.conf:/usr/local/etc/no-ip2.conf
+      - ./log/noip.log:/var/log/noip.log
+    deploy:
+      resources:
+        limits:
+          memory: 10M

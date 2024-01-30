@@ -1,0 +1,5 @@
+
+        https://www.softether.org/
+
+WEB UI:	https://github.com/notisrac/SoftEtherAdmin#config
+docker: https://hub.docker.com/r/softethervpn/vpnserver

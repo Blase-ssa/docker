@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  softether_srv:
+    image: softethervpn/vpnserver:stable
+    container_name: softether_srv
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    ports:
+      # - 53:53 # Needed for VPN via DNS. May conflict with 'systemd-resolve'
+      - 444:443
+      - 992:992
+      - 1195:1194/udp # conflickt vs OpenVPN
+      - 5555:5555
+      - 500:500/udp
+      - 4500:4500/udp
+      - 1701:1701/udp
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+      - "./config:/mnt"
+      - "./logs/srv:/root/server_log"
+      - "./logs/packetlog:/root/packet_log"
+      - "./logs/securitylog:/root/security_log"
+
+  softether_webui:
+    build:
+      dockerfile: Dockerfile
+    container_name: softether_webui
+    volumes:
+      - "./config/webui.json:/srv/SoftEtherAdmin/config/default.json"

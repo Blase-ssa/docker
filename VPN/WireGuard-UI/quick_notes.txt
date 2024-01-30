@@ -1,0 +1,9 @@
+
+links:
+    docker hub:     https://hub.docker.com/r/linuxserver/wireguard
+    Documentation:  https://github.com/linuxserver/docker-wireguard
+    
+    UI GitHub:      https://github.com/ngoduykhanh/wireguard-ui
+    official site:  https://www.wireguard.com/
+
+    Web UI:         http://127.0.0.1:5000/
