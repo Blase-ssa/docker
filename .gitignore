@@ -1,0 +1,7 @@
+## logs
+*.log
+## conf files
+*.conf
+
+## environment files
+**/.env
