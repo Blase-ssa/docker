@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  knockd:
+    build:
+      dockerfile: Dockerfile
+    container_name: knockd
+    volumes:
+      - ./conf/knockd.conf:/etc/knockd.conf
+      - ./conf/startupscript.sh:/opt/startup.sh
+    ports:
+      - 4000-4005:4000-4005
+      - 4050-4055:4050-4055
+      - 4090-4095:4050-4095
+    deploy:
+      resources:
+        limits:
+          memory: 10M

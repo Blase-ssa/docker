@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # ARG ARC="arm64v8"
-ARG ARC="amd64" 
+ARG ARC="amd64"
 
 FROM ${ARC}/ubuntu:latest
 ENV NOIP_VERSION="2.1.9-1"
