@@ -2,6 +2,7 @@ version: "3"
 
 services:
   noip:
+    restart: always
     build:
       dockerfile: Dockerfile
     container_name: noip_client
@@ -11,4 +12,4 @@ services:
     deploy:
       resources:
         limits:
-          memory: 10M
+          memory: 20M
