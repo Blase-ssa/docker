@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  gitpull:
+    restart: no
+    build:
+      dockerfile: Dockerfile
+      args:
+        ARC: ${ARC}
+    container_name: gitpull
+    volumes:
+      - ${GIT_TARGET}:/opt/git
+      - ./gitscript.sh:/opt/gitscript.sh:ro
+      - ${GIT_SSH_HOSTCERT}:/etc/key:ro
+    deploy:
+      resources:
+        limits:
+          memory: 20M
+    environment:
+      - 'GIT_SSH_COMMAND="ssh -i /etc/key"'
+      - 'GIT_AUTHOR_NAME=${GIT_AUTHOR_NAME}'
+      - 'GIT_AUTHOR_EMAIL=${GIT_AUTHOR_EMAIL}'
+    command: bash /opt/gitscript.sh
+
