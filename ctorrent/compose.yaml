@@ -1,0 +1,15 @@
+services:
+  ctorrent:
+    restart: no
+    build:
+      dockerfile: Dockerfile
+    container_name: ctorrent
+    network_mode: host
+    volumes:
+      - /mnt/database/downloads:/downloads
+      #- ./log/noip.log:/var/log/noip.log
+    command: bash -c 'cd /downloads && ctorrent -p 2700 kubuntu-26.04-desktop-amd64.torrent'
+    deploy:
+      resources:
+        limits:
+          memory: 120M
